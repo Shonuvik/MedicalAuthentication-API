@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalAuthenticationAPI", "MedicalAuthenticationAPI\MedicalAuthenticationAPI.csproj", "{50B5B2A0-3B8D-4056-8364-BEB78A77F4AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50B5B2A0-3B8D-4056-8364-BEB78A77F4AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50B5B2A0-3B8D-4056-8364-BEB78A77F4AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50B5B2A0-3B8D-4056-8364-BEB78A77F4AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50B5B2A0-3B8D-4056-8364-BEB78A77F4AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F5635526-EE62-43C5-A2E5-6A587605A3EC}
+	EndGlobalSection
+EndGlobal
