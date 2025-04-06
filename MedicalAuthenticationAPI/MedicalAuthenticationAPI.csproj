@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <SupressTfmSupportBuildWarnings>false</SupressTfmSupportBuildWarnings>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
@@ -11,6 +12,29 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.20" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
+    <PackageReference Include="Isopoh.Cryptography.Argon2" Version="2.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="7.0.0" />
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="02 - Services\" />
+    <None Remove="03 - Repositories\" />
+    <None Remove="02 - Services\Interfaces\" />
+    <None Remove="Helpers\" />
+    <None Remove="01 - Controllers\V1\" />
+    <None Remove="01 - Controllers\Validation\" />
+    <None Remove="Extensions\" />
+    <None Remove="03 - Repositories\Interfaces\" />
+    <None Remove="Entities\" />
+    <None Remove="04 - Infrastructure\" />
+    <None Remove="04 - Infrastructure\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="04 - Infrastructure\" />
+    <Folder Include="04 - Infrastructure\Interfaces\" />
+  </ItemGroup>
 </Project>
