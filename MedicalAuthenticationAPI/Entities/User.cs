@@ -2,11 +2,12 @@
 {
     public class User
     {
-        public User(string userName, string email, string password, string hashedPassword, string salt, string role)
+        public User() { }
+
+        public User(string userName, string email, string hashedPassword, string salt, string role)
         {
             UserName = userName;
             Email = email;
-            Password = password;
             HashedPassword = hashedPassword;
             Salt = salt;
             Role = role;
@@ -18,8 +19,6 @@
         public string UserName { get; set; }
 
         public string Email { get; set; }
-
-        public string Password { get; set; }
 
         public string HashedPassword { get; set; }
 

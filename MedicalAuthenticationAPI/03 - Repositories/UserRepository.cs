@@ -23,7 +23,6 @@ namespace MedicalAuthenticationAPI.Repositories
             query.Append($"    Id        AS {nameof(User.Id)},                  ");
             query.Append($"    UserName  AS {nameof(User.UserName)},            ");
             query.Append($"    Email     AS {nameof(User.Email)},               ");
-            query.Append($"    Password  AS {nameof(User.Password)},            ");
             query.Append($"    Hash      AS {nameof(User.HashedPassword)},      ");
             query.Append($"    Salt      AS {nameof(User.Salt)},                ");
             query.Append($"    CreatedAt AS {nameof(User.CreatedAt)},           ");
@@ -31,13 +30,12 @@ namespace MedicalAuthenticationAPI.Repositories
             query.Append($" FROM [USER]                                         ");
             query.Append($" WHERE Email = @Email                                ");
 
+            DynamicParameters parameters = new();
+            parameters.Add("@Email", email);
+
             using var conn = _uow.Connection;
 
-            var result = await conn.QueryFirstOrDefaultAsync(query.ToString(),
-                new
-                {
-                    Email = email
-                });
+            var result = await conn.QueryFirstOrDefaultAsync<User>(query.ToString(), parameters);
 
             return result;
         }
@@ -50,7 +48,6 @@ namespace MedicalAuthenticationAPI.Repositories
             query.Append($"    (                    ");
             query.Append($"        UserName,        ");
             query.Append($"        Email,           ");
-            query.Append($"        Password,        ");
             query.Append($"        Hash,            ");
             query.Append($"        Salt,            ");
             query.Append($"        CreatedAt,       ");
@@ -60,7 +57,6 @@ namespace MedicalAuthenticationAPI.Repositories
             query.Append($"    (                    ");
             query.Append($"        @UserName,       ");
             query.Append($"        @Email,          ");
-            query.Append($"        @Password,       ");
             query.Append($"        @Hash,           ");
             query.Append($"        @Salt,           ");
             query.Append($"        @CreatedAt,      ");
@@ -71,7 +67,6 @@ namespace MedicalAuthenticationAPI.Repositories
 
             parameters.Add("@UserName", user.UserName);
             parameters.Add("@Email", user.Email);
-            parameters.Add("@Password", user.Password);
             parameters.Add("@Hash", user.HashedPassword);
             parameters.Add("@Salt", user.Salt);
             parameters.Add("@CreatedAt", user.CreatedAt);

@@ -19,21 +19,28 @@ namespace MedicalAuthenticationAPI.Services
 
         public async Task<string> LoginAsync(UserDto userDto)
         {
-            if (userDto is null)
-                throw new Exception("Requisicao inválida");
+            try
+            {
+                if (userDto is null)
+                    throw new Exception("Requisicao inválida");
 
-            var user = await _userRepository.GetUserByEmailAsync(userDto.UserName);
+                var user = await _userRepository.GetUserByEmailAsync(userDto.UserName);
 
-            if (user is null)
-                throw new Exception("Usuário inválido ou inexistente.");
+                if (user is null)
+                    throw new Exception("Usuário inválido ou inexistente.");
 
-            var hashedPassword = HashPassword.GenerateHash(userDto.Password, user.Salt);
+                var hashedPassword = HashPassword.VerifyPassword(userDto.Password, user.Salt, user.HashedPassword);
 
-            if (hashedPassword != user.HashedPassword)
-                throw new Exception("Usuário inválido ou inexistente");
+                if (!hashedPassword)
+                    throw new Exception("Usuário inválido ou inexistente");
 
-            var token = _authService.GenerateJwtToken(user);
-            return token;
+                var token = _authService.GenerateJwtToken(user);
+                return token;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<UserCreateDto> CreateAsync(UserCreateDto userDto)
@@ -46,8 +53,7 @@ namespace MedicalAuthenticationAPI.Services
             if (user != null)
                 throw new Exception("O Usuário informado já existe.");
 
-            var salt = HashPassword.Salt();
-            var hashedPassword = HashPassword.GenerateHash("password", salt);
+            var hashedPassword = HashPassword.GenerateHash(userDto.Password, out string salt);
 
             var userEntity = ParseToEntity(userDto, hashedPassword, salt);
 
@@ -59,7 +65,7 @@ namespace MedicalAuthenticationAPI.Services
 
         private User ParseToEntity(UserCreateDto userDto, string hashedPassword, string salt)
         {
-            return new User(userDto.UserName, userDto.Email, userDto.Password, hashedPassword, salt, userDto.Role);
+            return new User(userDto.UserName, userDto.Email, hashedPassword, salt, userDto.Role);
         }
     }
 }

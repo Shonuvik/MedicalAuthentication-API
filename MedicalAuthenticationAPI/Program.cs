@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddDatabase(configuration["connectionString"]);
+builder.Services.AddDatabase();
 builder.Services.AddIoC();
 
 builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection("JwtSettings"));

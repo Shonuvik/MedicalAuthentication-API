@@ -12,7 +12,7 @@ namespace MedicalAuthenticationAPI.Extensions
 {
     public static class ServiceCollectionExtension
     {
-        public static void AddDatabase(this IServiceCollection services, string connectionString)
+        public static void AddDatabase(this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
