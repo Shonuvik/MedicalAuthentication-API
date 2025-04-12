@@ -1,0 +1,26 @@
+﻿# Usa a imagem do SDK do .NET para compilar o código
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+
+WORKDIR /app
+
+# Copia os arquivos do projeto
+COPY . ./
+
+# Restaura os pacotes NuGet
+RUN dotnet restore
+
+# Compila a aplicação
+RUN dotnet publish -c Release -o /publish
+
+# Usa uma imagem menor para rodar o app
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
+WORKDIR /app
+
+# Copia os arquivos compilados
+COPY --from=build /publish .
+
+# Expõe a porta padrão da aplicação
+EXPOSE 5289
+
+# Define o comando de inicialização
+CMD ["dotnet", "MedicalAuthenticationAPI.dll"]

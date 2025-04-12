@@ -26,6 +26,7 @@ namespace MedicalAuthenticationAPI.Extensions
 
             //Repositories
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDoctorRepository, DoctorRepository>();
         }
     }
 }

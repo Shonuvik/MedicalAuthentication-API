@@ -9,11 +9,13 @@ namespace MedicalAuthenticationAPI.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IDoctorRepository _doctorRepository;
         private readonly IAuthService _authService;
 
-        public UserService(IUserRepository userRepository, IAuthService authService)
+        public UserService(IUserRepository userRepository, IAuthService authService, IDoctorRepository doctorRepository)
         {
             _userRepository = userRepository;
+            _doctorRepository = doctorRepository;
             _authService = authService;
         }
 
@@ -24,9 +26,7 @@ namespace MedicalAuthenticationAPI.Services
                 if (userDto is null)
                     throw new Exception("Requisicao inválida");
 
-                var user = await _userRepository.GetUserByEmailAsync(userDto.UserName);
-
-                if (user is null)
+                var user = await _userRepository.GetUserByEmailAsync(userDto.UserName) ??
                     throw new Exception("Usuário inválido ou inexistente.");
 
                 var hashedPassword = HashPassword.VerifyPassword(userDto.Password, user.Salt, user.HashedPassword);
@@ -59,6 +59,18 @@ namespace MedicalAuthenticationAPI.Services
 
             await _userRepository.CreateAsync(userEntity);
             userDto.Password = null;
+
+            if (userDto.Role.Contains("Doctor"))
+            {
+                var userRegistered = await _userRepository.GetUserByEmailAsync(userDto.Email);
+                if (userRegistered != null)
+                    await _doctorRepository.CreateAsync(new Doctor
+                    {
+                        UserId = userRegistered.Id,
+                        CRM = userDto.CRM,
+                        CreatedAt = DateTime.Now
+                    });
+            }
 
             return userDto;
         }
